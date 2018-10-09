@@ -1,1 +1,2 @@
 key_generation_request
+witness_request
