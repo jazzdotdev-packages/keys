@@ -49,15 +49,25 @@ if not private_key then
     }
 end
 
-log.trace("Key exists")
+local public_key
+do
+  local file_content = fs.read_file("content/" .. public_uuid)
+  local header, content = split_yaml_header(file_content)
+  public_key = content
+end
 
-print(private_key)
+local port = req.path_segments[2]
+
+log.info("sending public key", public_key, "to port", port)
 
 local new_todo = ClientRequest.build()
     :method("POST")
-    :uri("http://localhost:3001/")
-    :headers({ ["content-type"] = "application/json" })
-    :send_with_body('{"title":"recieved key","type":"key","text":"' .. tostring(private_key) .. '"}')
+    :uri("http://localhost:" .. port .. "/")
+    :headers({
+      ["content-type"] = "application/json",
+      ["lighttouch-identity"] = "alice",
+    })
+    :send_with_body('{"title":"recieved key","type":"key","text":"' .. public_key .. '"}')
 
 return {
     headers = {
