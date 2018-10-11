@@ -3,7 +3,7 @@ priority: 1
 
 function write_file (key_uuid, key, params)
 
-  local content = yaml.dump(params) .. "\n...\n" .. key
+  local content = yaml.dump(params) .. "\n...\n" .. tostring(key)
   
   local file = io.open("content/" .. key_uuid, "w")
   file:write(content)
@@ -13,16 +13,17 @@ function write_file (key_uuid, key, params)
 end
 
 log.debug("Generating keys")
---local box_pair = crypto.box.new_keypair()
-local sign_pair = crypto.sign.new_keypair()
 
+--local box_pair = crypto.box.new_keypair()
 --local box_priv, box_pub = box_pair:get_keys()
-local sign_priv, sign_pub = sign_pair:get_keys()
+
+local sign_priv, sign_pub = crypto.sign.new_keypair()
 
 log.debug("Saving keys")
 
 --local box_priv_id = write_file("box-private", box_priv)
 --local box_pub_id = write_file("box-public", box_pub)
+
 local sign_priv_id = uuid.v4()
 local sign_pub_id = uuid.v4()
 
@@ -48,7 +49,7 @@ log.debug("Returning keys")
 
 local keys = '{"sign_priv": "' .. sign_priv_id .. '", "sign_pub": "' .. sign_pub_id .. '"}'
 
-local signature = sign_pair:sign_detached(keys)
+local signature = sign_priv:sign_detached(keys)
 
 local body = '{"keys": ' .. keys .. ', "signature": "' .. signature .. '"}'
 
