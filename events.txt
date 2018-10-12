@@ -4,3 +4,4 @@ send_key
 say_hello
 create_profile
 send_profile_and_key
+jade_new_profile
