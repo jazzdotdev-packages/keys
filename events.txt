@@ -2,3 +2,4 @@ key_generation_request
 witness_request
 send_key
 say_hello
+create_profile
