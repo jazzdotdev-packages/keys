@@ -1,49 +1,47 @@
 event: ["reqProcess"]
 priority: 1
 
--- TODO: the headers part of the signature header is being ignored.
+-- TODO: The headers part of the signature header is being ignored.
 -- every header listed in headers, separated with spaces, must be included
+-- in the signature string. Also the algorithm field is ignored as well, this
+-- should fail if algorithm is not ed25519, also fields can be given in any
+-- order, not specifically keyId before signature
+
+local helpers = require "lighttouch-keys.helpers"
 
 local header = req.headers["signature"]
 log.trace("signature header", header)
 
 if not header then log.info("Unsigned Request") return end
 
-local keys = {
-  alice = "xpKtm+beeRN+kT7VWIJ05/tkhdDn/JxHlTsk73L5Z50="
-}
-
 local keyId, signature = header:match('keyId="(%a+)".+signature="([^"]+)"')
 log.debug("keyId", keyId)
 log.debug("signature", signature)
 
---[=[
-local sig_parts = {}
-for _, part in ipairs(header:split(",")) do
-  local ps = part:split("=")
-  -- remove start and end quotes (doesn't handle escape sequences)
-  sig_parts[ps[1]] = ps[2]:sub(2, -2)
+local pub_key = helpers.iter_content_files_of("home",
+  function (file_uuid, header, body)
+    if header.type == "key" and header.kind == "sign_public" then
+      return body
+    end
+  end
+)
+
+if not pub_key then
+  log.info("no public key found for profile " .. keyId)
+  req.headers["x-trusted"] = "0"
 end
 
-log.trace("signature parts")
-for k, v in pairs(sig_parts) do
-  log.debug(k, v)
-end
-
-local signature = sig_parts.signature
-]=]
-
-local key = crypto.sign.load_public(keys[keyId])
-log.trace("public key for", keyId, key)
+pub_key = crypto.sign.load_public(pub_key)
 
 local signature_string = "date: " .. req.headers.date .. "\n" .. req.body_raw
-signature_string = "a"
 log.trace("signature string", signature_string)
 
-local is_valid = key:verify_detached(signature_string, signature)
+local is_valid = pub_key:verify_detached(signature_string, signature)
 if is_valid then
-  log.info("request signature is valid")
+  log.debug("request signature is valid")
+  req.headers["x-trusted"] = "1"
 else
   log.warn("invalid request signature")
+  req.headers["x-trusted"] = "0"
 end
 
