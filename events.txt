@@ -3,3 +3,4 @@ witness_request
 send_key
 say_hello
 create_profile
+send_profile_and_key

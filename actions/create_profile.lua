@@ -56,7 +56,7 @@ write_file(home_dir .. sign_priv_id, {
   type = "key",
   kind = "sign_private",
   priority = math.random()*0.9 + 0.1,
-  public_uuid = sign_pub_id,
+  profile_uuid = profile_uuid,
 }, tostring(sign_priv))
 
 write_file(home_dir .. sign_pub_id, {
