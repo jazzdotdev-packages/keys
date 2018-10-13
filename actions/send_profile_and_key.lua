@@ -96,7 +96,7 @@ local response = ClientRequest.build()
   })
   :send_with_body('{"uuid":"' .. profile.uuid .. '","name":"' .. profile.name .. '","public_key":"' .. pub_key .. '"}')
 
-log.debug(response)
+log.debug(require("inspect").inspect(response))
 
 if not verify(response) then
   log.error("Invalid response signature")

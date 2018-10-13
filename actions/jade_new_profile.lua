@@ -3,6 +3,8 @@ priority: 1
 
 local split_yaml_header = (require "helpers").split_yaml_header
 
+local helpers = require "lighttouch-keys.helpers"
+
 function write_file (path, header, body)
   local content = yaml.dump(header) .. "\n...\n" .. (body or "")
   local file = io.open(path, "w")
@@ -20,6 +22,22 @@ for k, v in pairs(req.body) do
 end
 
 local profile_uuid = req.body.uuid
+
+local exists = helpers.iter_content_files_of(profile_uuid,
+  function (file_uuid, header, body)
+    if header.type == "profile" then
+      return true
+    end
+  end
+)
+
+if exists then
+  -- Could be 403.3 but actix_web only supports integers
+  -- https://en.wikipedia.org/wiki/HTTP_403#o403_substatus_error_codes_for_IIS
+  -- https://docs.rs/http/0.1.13/src/http/status.rs.html#43
+  return { status = 403 }
+end
+
 local dir = "content/" .. profile_uuid .. "/"
 os.execute("mkdir -p " .. dir)
 
@@ -35,10 +53,4 @@ write_file(dir .. sign_pub_id, {
 }, req.body.public_key)
 
 
-return {
-    headers = {
-        ["content-type"] = "application/json",
-        ["X-Request-ID"] = key_uuid 
-    },
-    body = '{"msg":"profile created"}'
-}
+return { }

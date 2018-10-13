@@ -27,11 +27,11 @@ function helpers.verify_http_signature (message)
 
   if not header then log.info("Unsigned Request") return end
 
-  local keyId, signature = header:match('keyId="(%a+)".+signature="([^"]+)"')
+  local keyId, signature = header:match('keyId="([^"]+)".+signature="([^"]+)"')
   log.debug("keyId", keyId)
   log.debug("signature", signature)
 
-  local pub_key = helpers.iter_content_files_of("home",
+  local pub_key = helpers.iter_content_files_of(keyId,
     function (file_uuid, header, body)
       if header.type == "key" and header.kind == "sign_public" then
         return body
@@ -45,6 +45,8 @@ function helpers.verify_http_signature (message)
   end
 
   pub_key = crypto.sign.load_public(pub_key)
+
+  log.trace("public key", pub_key)
 
   local signature_string = "date: " .. message.headers.date .. "\n" .. message.body_raw
   log.trace("signature string", signature_string)
