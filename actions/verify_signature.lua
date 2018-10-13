@@ -9,39 +9,13 @@ priority: 1
 
 local helpers = require "lighttouch-keys.helpers"
 
-local header = req.headers["signature"]
-log.trace("signature header", header)
-
-if not header then log.info("Unsigned Request") return end
-
-local keyId, signature = header:match('keyId="(%a+)".+signature="([^"]+)"')
-log.debug("keyId", keyId)
-log.debug("signature", signature)
-
-local pub_key = helpers.iter_content_files_of("home",
-  function (file_uuid, header, body)
-    if header.type == "key" and header.kind == "sign_public" then
-      return body
-    end
-  end
-)
-
-if not pub_key then
-  log.info("no public key found for profile " .. keyId)
-  req.headers["x-trusted"] = "0"
-end
-
-pub_key = crypto.sign.load_public(pub_key)
-
-local signature_string = "date: " .. req.headers.date .. "\n" .. req.body_raw
-log.trace("signature string", signature_string)
-
-local is_valid = pub_key:verify_detached(signature_string, signature)
-if is_valid then
-  log.debug("request signature is valid")
+if helpers.verify_http_signature(req) then
+  log.debug("valid request signature")
   req.headers["x-trusted"] = "1"
 else
-  log.warn("invalid request signature")
+  if req.headers.signature then
+    log.warn("invalid request signature")
+  end
   req.headers["x-trusted"] = "0"
 end
 

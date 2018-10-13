@@ -3,6 +3,7 @@ priority: 1
 
 local fs = require "fs"
 local split_yaml_header = (require "helpers").split_yaml_header
+local verify = (require "lighttouch-keys.helpers").verify_http_signature
 
 local profile
 local pub_key
@@ -87,17 +88,23 @@ end
 
 log.info("sending profile info to", target_host)
 
-local new_todo = ClientRequest.build()
-    :method("POST")
-    :uri(target_host .. "jade_new_profile")
-    :headers({
-      ["content-type"] = "application/json",
-    })
-    :send_with_body('{"uuid":"' .. profile.uuid .. '","name":"' .. profile.name .. '","public_key":"' .. pub_key .. '"}')
+local response = ClientRequest.build()
+  :method("POST")
+  :uri(target_host .. "jade_new_profile")
+  :headers({
+    ["content-type"] = "application/json",
+  })
+  :send_with_body('{"uuid":"' .. profile.uuid .. '","name":"' .. profile.name .. '","public_key":"' .. pub_key .. '"}')
+
+log.debug(response)
+
+if not verify(response) then
+  log.error("Invalid response signature")
+end
 
 return {
-    headers = {
-        ["content-type"] = "application/json",
-    },
-    body = '{"message":"data sent","host":"' .. target_host .. '"}'
+  headers = {
+    ["content-type"] = "application/json",
+  },
+  body = '{"message":"data sent","host":"' .. target_host .. '"}'
 }
