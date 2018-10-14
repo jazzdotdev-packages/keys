@@ -51,7 +51,7 @@ local keypair = crypto.sign.load_keypair(private_key, public_key)
 
 -- Reading the file to sign
 
-local type, id = req.path_segments[1], req.path_segments[2]
+local type, id = request.path_segments[1], request.path_segments[2]
 local filename = "content/" .. id
 local file_content = fs.read_file(filename)
 

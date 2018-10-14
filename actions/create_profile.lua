@@ -49,7 +49,7 @@ local sign_pub_id = uuid.v4()
 
 write_file(home_dir .. profile_uuid, {
   type = "profile",
-  name = req.path_segments[3]
+  name = request.path_segments[3]
 })
 
 write_file(home_dir .. sign_priv_id, {

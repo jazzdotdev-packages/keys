@@ -15,13 +15,13 @@ function write_file (path, header, body)
   file:close()
 end
 
-log.trace("body raw", req.body_raw)
+log.trace("body raw", request.body_raw)
 log.trace("body")
-for k, v in pairs(req.body) do
+for k, v in pairs(request.body) do
   log.trace(k, v)
 end
 
-local profile_uuid = req.body.uuid
+local profile_uuid = request.body.uuid
 
 local exists = helpers.iter_content_files_of(profile_uuid,
   function (file_uuid, header, body)
@@ -43,14 +43,14 @@ os.execute("mkdir -p " .. dir)
 
 write_file(dir .. profile_uuid, {
   type = "profile",
-  name = req.body.name
+  name = request.body.name
 })
 
 local sign_pub_id = uuid.v4()
 write_file(dir .. sign_pub_id, {
   type = "key",
   kind = "sign_public",
-}, req.body.public_key)
+}, request.body.public_key)
 
 
 return { }

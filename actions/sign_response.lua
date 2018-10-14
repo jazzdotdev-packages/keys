@@ -1,4 +1,4 @@
-event: ["resProcess"]
+event: ["response_process"]
 priority: 2 -- Before logging the response
 
 -- https://tools.ietf.org/id/draft-cavage-http-signatures-08.html

@@ -53,7 +53,7 @@ if not pub_key then
   }
 end
 
-local target_uuid = req.path_segments[2]
+local target_uuid = request.path_segments[2]
 
 local target_dir = "content/" .. target_uuid .. "/"
 log.debug("target dir", target_dir)

@@ -1,4 +1,4 @@
-event: ["reqProcess"]
+event: ["request_process"]
 priority: 1
 
 -- TODO: The headers part of the signature header is being ignored.
@@ -9,13 +9,13 @@ priority: 1
 
 local helpers = require "lighttouch-keys.helpers"
 
-if helpers.verify_http_signature(req) then
+if helpers.verify_http_signature(request) then
   log.debug("valid request signature")
-  req.headers["x-trusted"] = "1"
+  request.headers["x-trusted"] = "1"
 else
-  if req.headers.signature then
+  if request.headers.signature then
     log.warn("invalid request signature")
   end
-  req.headers["x-trusted"] = "0"
+  request.headers["x-trusted"] = "0"
 end
 
