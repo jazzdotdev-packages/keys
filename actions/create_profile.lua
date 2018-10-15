@@ -2,33 +2,29 @@ event: ["create_profile"]
 priority: 1
 
 local split_yaml_header = (require "helpers").split_yaml_header
+local helpers = require "lighttouch-keys.helpers"
 
 local home_dir = "content/home/"
 
-for _, file_id in ipairs(fs.get_all_files_in(home_dir)) do
-
-  local path = home_dir .. file_id
-  log.trace("checking file", path)
-
-  local file_content = fs.read_file(path)
-  if not file_content then
-    log.error("could not open " .. path)
+local path
+local existing_profile = helpers.iter_content_files_of("home",
+  function (file_uuid, header, body)
+    if header.type == "profile" then
+      path = "home/" .. file_uuid
+      return header.name
+    end
   end
+)
 
-  local header, content = split_yaml_header(file_content)
-
-  if header.type == "profile" then
-    log.warn("A profile '" .. header.name .. "' already exists, in " .. path)
-    return {
-      headers = {
-        ["content-type"] = "application/json"
-      },
-      body = '{"error":"a profile already exists"}'
-    }
-  end
+if existing_profile then
+  log.warn("A profile '" .. existing_profile .. "' already exists, in " .. path)
+  return {
+    headers = {
+      ["content-type"] = "application/json"
+    },
+    body = '{"error":"a profile already exists"}'
+  }
 end
-
-log.debug("No profile found")
 
 function write_file (path, header, body)
   local content = yaml.dump(header) .. "\n...\n" .. (body or "")
