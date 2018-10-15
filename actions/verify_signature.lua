@@ -1,4 +1,4 @@
-event: ["request_process"]
+event: ["incoming_request_received"]
 priority: 1
 
 -- TODO: The headers part of the signature header is being ignored.
