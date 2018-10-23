@@ -1,5 +1,5 @@
 event: ["incoming_request_received"]
-priority: 1
+priority: 50
 
 -- TODO: The headers part of the signature header is being ignored.
 -- every header listed in headers, separated with spaces, must be included
@@ -9,13 +9,15 @@ priority: 1
 
 local helpers = require "lighttouch-keys.helpers"
 
-if helpers.verify_http_signature(request) then
-  log.debug("valid request signature")
-  request.headers["x-trusted"] = "1"
-else
+local is_valid = helpers.verify_http_signature(request)
+
+if not helpers.verify_http_signature(request)
+and request.path_segments[1] ~= "profile"
+and request.path_segments[2] ~= "new"
+then
   if request.headers.signature then
     log.warn("invalid request signature")
   end
-  request.headers["x-trusted"] = "0"
+  -- Respond 401
 end
 

@@ -88,13 +88,14 @@ end
 
 log.info("sending profile info to", target_host)
 
-local response = ClientRequest.build()
-  :method("POST")
-  :uri(target_host .. "jade_new_profile")
-  :headers({
+local response = client_request.send({
+  method = "POST",
+  uri = "jade_new_profile",
+  headers = {
     ["content-type"] = "application/json",
-  })
-  :send_with_body('{"uuid":"' .. profile.uuid .. '","name":"' .. profile.name .. '","public_key":"' .. pub_key .. '"}')
+  },
+  body = '{"uuid":"' .. profile.uuid .. '","name":"' .. profile.name .. '","public_key":"' .. pub_key .. '"}'
+})
 
 log.debug(require("inspect").inspect(response))
 
