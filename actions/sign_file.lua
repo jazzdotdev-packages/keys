@@ -1,9 +1,6 @@
 event: ["witness_request"]
 priority: 1
 
-local fs = require "fs"
-local split_yaml_header = (require "helpers").split_yaml_header
-
 -- Find the keypair with highest priority
 
 local highest_priority = 0
@@ -17,7 +14,7 @@ for _, file_id in ipairs(fs.get_all_files_in("content/")) do
     log.error("could not open " .. file_id)
   end
 
-  local header, content = split_yaml_header(file_content)
+  local header, content = content.split_header(file_content)
 
   if header.type == "key"
   and header.kind == "sign_private"
@@ -43,7 +40,7 @@ end
 local public_key
 do
   local file_content = fs.read_file("content/" .. public_uuid)
-  local header, content = split_yaml_header(file_content)
+  local header, content = content.split_header(file_content)
   public_key = content
 end
 
