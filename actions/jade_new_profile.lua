@@ -3,7 +3,7 @@ priority: 1
 
 local profile_uuid = request.body.uuid
 
-local exists = content.iter_content_files_of(profile_uuid,
+local exists = content.walk_documents(profile_uuid,
   function (file_uuid, header, body)
     if header.type == "profile" then
       return true

@@ -1,7 +1,7 @@
 event: ["create_profile"]
 priority: 1
 
-local profile = content.iter_files("home",
+local profile = content.walk_documents("home",
   function (file_uuid, header, body)
     if header.type == "profile" then
       return {name = header.name, uuid = file_uuid}

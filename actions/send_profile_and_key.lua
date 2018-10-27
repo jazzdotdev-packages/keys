@@ -4,7 +4,7 @@ priority: 1
 local profile
 local pub_key
 
-content.iter_files("home", function (file_uuid, header, body)
+content.walk_documents("home", function (file_uuid, header, body)
   if header.type == "key" and header.kind == "sign_public" then
     pub_key = body
   end
@@ -40,7 +40,7 @@ end
 
 local target_uuid = request.path_segments[2]
 
-local target_host = content.iter_files(target_uuid,
+local target_host = content.walk_documents(target_uuid,
   function (file_uuid, header, body)
     if header.type == "place" then
       return header.host
