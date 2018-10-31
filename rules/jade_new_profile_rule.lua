@@ -1,5 +1,6 @@
 priority: 1
 input_parameter: "request"
+events_table: ["jade_new_profile"]
 
 if 
   request.method == "POST"
@@ -8,5 +9,5 @@ if
   -- log.trace("[rule] jade_new_profile evaluated as TRUE")
     
   then
-    events["jade_new_profile"]:trigger(request)
+    events[events_table[1]]:trigger(request)
 end

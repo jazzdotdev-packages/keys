@@ -1,5 +1,6 @@
 priority: 1
 input_parameter: "request"
+events_table: ["witness_request"]
 
 if
 	request.method == "GET"
@@ -12,5 +13,5 @@ if
 	and
 	request.path_segments[3] == "witness"
 	then
-    events["witness_request"]:trigger(request)
+    events[events_table[1]]:trigger(request)
 end
