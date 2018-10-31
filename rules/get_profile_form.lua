@@ -7,5 +7,5 @@ and #request.path_segments == 2
 and request.path_segments[1] == "profile"
 and request.path_segments[2] == "new"
 then
-    events[events_table[1]]:trigger(request)
+    events[events_table[1]]:trigger(events_parameters)
 end

@@ -13,5 +13,5 @@ if
 	and
 	request.path_segments[3] == "witness"
 	then
-    events[events_table[1]]:trigger(request)
+    events[events_table[1]]:trigger(events_parameters)
 end

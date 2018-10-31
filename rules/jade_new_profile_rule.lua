@@ -9,5 +9,5 @@ if
   -- log.trace("[rule] jade_new_profile evaluated as TRUE")
     
   then
-    events[events_table[1]]:trigger(request)
+    events[events_table[1]]:trigger(events_parameters)
 end

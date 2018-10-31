@@ -6,5 +6,5 @@ if request.method == "POST"
 and #request.path_segments == 1
 and request.path_segments[1] == "profile"
 then
-    events[events_table[1]]:trigger(request)
+    events[events_table[1]]:trigger(events_parameters)
 end
