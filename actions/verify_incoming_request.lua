@@ -1,5 +1,6 @@
 event: ["incoming_request_received"]
 priority: 50
+input_parameters: ["request"]
 
 local is_valid = keys.verify_http_signature(request)
 

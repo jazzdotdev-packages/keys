@@ -1,5 +1,7 @@
 event: ["create_profile"]
 priority: 1
+input_parameters: ["request"]
+
 
 local profile = content.walk_documents("home",
   function (file_uuid, header, body)

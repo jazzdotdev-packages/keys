@@ -1,4 +1,6 @@
 priority: 1
+input_parameter: "request"
+
 if request.method == "GET"
 and #request.path_segments == 2
 and request.path_segments[1] == "profile"
