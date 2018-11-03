@@ -1,5 +1,6 @@
 event: ["witness_request"]
 priority: 1
+input_parameters: ["request"]
 
 -- Find the keypair with highest priority
 

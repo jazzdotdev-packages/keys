@@ -1,5 +1,6 @@
 event: ["outgoing_response_about_to_be_sent"]
 priority: 2 -- Before logging the response
+input_parameters: [ ]
 
 local signed = keys.sign_http_message(response)
 

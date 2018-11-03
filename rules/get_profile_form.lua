@@ -1,8 +1,8 @@
 priority: 1
-if request.method == "GET"
+input_parameter: "request"
+events_table: ["get_profile_form"]
+
+request.method == "GET"
 and #request.path_segments == 2
 and request.path_segments[1] == "profile"
 and request.path_segments[2] == "new"
-then
-    events["get_profile_form"]:trigger(request)
-end

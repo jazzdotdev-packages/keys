@@ -1,5 +1,8 @@
 priority: 1
-if
+input_parameter: "request"
+events_table: ["witness_request"]
+
+
 	request.method == "GET"
 	and
 	#request.path_segments == 3
@@ -9,6 +12,3 @@ if
 	uuid.check(request.path_segments[2])
 	and
 	request.path_segments[3] == "witness"
-	then
-    events["witness_request"]:trigger(request)
-end
