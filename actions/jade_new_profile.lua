@@ -4,7 +4,7 @@ input_parameters: ["request"]
 
 local profile_uuid = request.body.uuid
 
-local exists = content.walk_documents(profile_uuid,
+local exists = contentdb.walk_documents(profile_uuid,
   function (file_uuid, header, body)
     if header.type == "profile" then
       return true
@@ -20,13 +20,13 @@ if exists then
   return { status = 403 }
 end
 
-content.write_file(profile_uuid, profile_uuid, {
+contentdb.write_file(profile_uuid, profile_uuid, {
   type = "profile",
   name = request.body.name
 })
 
 local sign_pub_id = uuid.v4()
-content.write_file(profile_uuid, sign_pub_id, {
+contentdb.write_file(profile_uuid, sign_pub_id, {
   type = "key",
   kind = "sign_public",
 }, request.body.public_key)
