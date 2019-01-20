@@ -1,0 +1,2 @@
+description="""Cryptographic keys of a profile"""
+fields={kind={required=true,type="""string""",values=["""sign_public""","""sign_private""",],},}

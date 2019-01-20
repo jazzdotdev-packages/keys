@@ -1,6 +1,6 @@
-event: ["send_profile_and_key"]
-priority: 1
-input_parameters: ["request"]
+event = ["send_profile_and_key"]
+priority = 1
+input_parameters = ["request"]
 
 local profile
 local pub_key

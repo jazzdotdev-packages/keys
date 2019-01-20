@@ -1,6 +1,6 @@
-event: ["jade_new_profile"]
-priority: 1
-input_parameters: ["request"]
+event = ["jade_new_profile"]
+priority = 1
+input_parameters = ["request"]
 
 local profile_uuid = request.body.uuid
 

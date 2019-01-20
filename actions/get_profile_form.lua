@@ -1,6 +1,6 @@
-event: ["get_profile_form"]
-priority: 1
-input_parameters: ["request"]
+event = ["get_profile_form"]
+priority = 1
+input_parameters = ["request"]
 
 return {
     headers = {

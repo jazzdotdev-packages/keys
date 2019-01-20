@@ -1,6 +1,6 @@
-priority: 1
-input_parameter: "request"
-events_table: ["jade_new_profile"]
+priority = 1
+input_parameter = "request"
+events_table = ["jade_new_profile"]
 
 
   request.method == "POST"

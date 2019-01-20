@@ -1,6 +1,6 @@
-event: ["outgoing_response_about_to_be_sent"]
-priority: 2 -- Before logging the response
-input_parameters: ["response"]
+event = ["outgoing_response_about_to_be_sent"]
+priority = 2
+input_parameters = ["response"]
 
 local signed, err = keys.sign_http_message(response)
 

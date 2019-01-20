@@ -1,0 +1,2 @@
+description="""Log of a sync to foundpatterns"""
+fields={documents={required=true,type="""uuid""",},previous_sync={required=false,type="""uuid""",},}

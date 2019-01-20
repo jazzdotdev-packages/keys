@@ -1,6 +1,6 @@
-priority: 1
-input_parameter: "request"
-events_table: ["get_profile_form"]
+priority = 1
+input_parameter = "request"
+events_table = ["get_profile_form"]
 
 request.method == "GET"
 and #request.path_segments == 2

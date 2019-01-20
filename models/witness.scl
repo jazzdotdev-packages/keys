@@ -1,0 +1,2 @@
+description="""Witness of a file"""
+fields={date={required=true,type="""string""",},document={required=true,type="""string""",},document_model={required=true,type="""string""",},profile={required=true,type="""string""",},signatue={required=true,type="""string""",},}
