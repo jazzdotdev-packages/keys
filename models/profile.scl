@@ -1,2 +1,6 @@
-description="""Profile definition"""
-fields={name={type="""string""",},}
+description = "Profile definition"
+fields = {
+  name = {
+    type= "string",
+  },
+}
