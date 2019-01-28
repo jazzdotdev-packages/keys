@@ -23,7 +23,7 @@ if profile then
   }
 end
 
-local profile_uuid = uuid.v4()
+local profile_uuid = content.home
 
 local sign_priv, sign_pub = crypto.sign.new_keypair()
 
