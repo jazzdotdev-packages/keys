@@ -32,13 +32,12 @@ local sign_pub_id = uuid.v4()
 
 content.write_file(content.home, profile_uuid, {
   model = "profile",
-  name = request.body.name
+  name = request.body["fields.name"]
 })
 
 content.write_file(content.home, sign_priv_id, {
   model = "key",
   kind = "sign_private",
-  priority = math.random()*0.9 + 0.1,
   profile_uuid = profile_uuid,
 }, tostring(sign_priv))
 
