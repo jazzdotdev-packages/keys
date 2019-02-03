@@ -1,2 +1,7 @@
-description="""Message"""
-fields={title={required=true,type="""string""",},}
+description="Message"
+fields={title=
+	{
+		required=true,
+		type="string",
+	},
+}
