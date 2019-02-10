@@ -1,6 +1,6 @@
 description="Message"
-fields={title=
-	{
+fields={
+  title={
 		required=true,
 		type="string",
 	},
