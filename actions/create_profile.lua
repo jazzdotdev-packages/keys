@@ -14,7 +14,7 @@ local profile = contentdb.walk_documents(contentdb.home,
 if profile then
   local path = contentdb.stores[contentdb.home] .. profile.uuid
   local msg = "A profile '" .. profile.name .. "' already exists in '" .. path .. "'"
-  log.warn(msg)
+  log.info(msg)
   return {
     headers = {
       ["content-type"] = "application/json"

@@ -5,5 +5,5 @@ input_parameters = ["response"]
 local signed, err = keys.sign_http_message(response)
 
 if not signed then
-  log.warn("Could not sign response: " .. err)
+  log.debug("Could not sign response: " .. err)
 end
